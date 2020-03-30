@@ -17,11 +17,11 @@ class DataSource():
     def __init__(self, date):
         self._url = \
         f"https://www.ecdc.europa.eu/sites/default/files/documents/COVID-19-geographic-disbtribution-worldwide-{date.strftime('%Y-%m-%d')}.xlsx"
-        self._file_name = self.url.split("/")[-1]
+        self._file_name = self._url.split("/")[-1]
         self._req_date = date
 
     def data(self):
-        data = pd.read_excel(self.file_name, parse_dates=True, index_col=0)
+        data = pd.read_excel(self._file_name, parse_dates=True, index_col=0)
         return data
 
 def getData(date):
@@ -29,12 +29,12 @@ def getData(date):
     
     try:
         data_source = DataSource(date)
-        data = urllib.urlretrieve(data_source.url, data_source.file_name)
+        data = urllib.urlretrieve(data_source._url, data_source._file_name)
         sel_date = date
     except:
         day_before = date - datetime.timedelta(days=1)
         data_source = DataSource(day_before)
-        data = urllib.urlretrieve(data_source.url, data_source.file_name)
+        data = urllib.urlretrieve(data_source._url, data_source._file_name)
         sel_date = day_before
 
     return sel_date, data_source.data()
