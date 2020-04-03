@@ -29,12 +29,12 @@ def getData(date):
     
     try:
         data_source = DataSource(date)
-        data = urllib.urlretrieve(data_source._url, data_source._file_name)
+        _ = urllib.urlretrieve(data_source._url, data_source._file_name)
         sel_date = date
     except:
         day_before = date - datetime.timedelta(days=1)
         data_source = DataSource(day_before)
-        data = urllib.urlretrieve(data_source._url, data_source._file_name)
+        _ = urllib.urlretrieve(data_source._url, data_source._file_name)
         sel_date = day_before
 
     return sel_date, data_source.data()
@@ -110,7 +110,7 @@ def main():
     axs[0].set_ylim(min_count)
 
     # save figure
-    plt.savefig(f"{date.strftime('%d-%m-%Y')}_plot.png",
+    plt.savefig(f"{date.strftime('%Y%m%d')}_plot.png",
         bbox_inches='tight', dpi=in_dpi)
 
     # show plot
